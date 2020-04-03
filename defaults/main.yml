@@ -5,11 +5,16 @@ nsq_nsqd_install: true
 nsq_nsqadmin_install: true
 nsq_nsqlookupd_install: true
 
+nsq_uninstall: false
+nsq_nsq_uninstall: false
+nsq_nsqadmin_uninstall: false
+nsq_nsqlookupd_uninstall: false
+
 nsq_owner: root
 nsq_group: root
 
-nsq_version: 0.3.8
-nsq_go_version: go1.6.2
+nsq_version: 1.2.0
+nsq_go_version: go1.12.9
 nsq_arch: linux-amd64
 
 nsq_install_directory: /opt
@@ -21,7 +26,6 @@ nsq_data_directory: /var/lib/nsq
 nsq_data_directory_mode: 0750
 
 nsq_binaries:
-  - nsq_pubsub
   - nsq_stat
   - nsq_tail
   - nsq_to_file
@@ -42,6 +46,9 @@ nsq_lookupd_tcp_addresses:
 
 nsq_lookupd_http_addresses:
   - "{{ nsq_network_address }}"
+
+nsq_nsqd_opts: ""
+nsq_nsqlookupd_opts: ""
 
 nsq_nsqlookupd:
   broadcast_address: "{{ ansible_hostname }}"
@@ -96,6 +103,8 @@ nsq_nsqd:
   #  number of messages to keep in memory (per topic/channel) (default 10000)
   msg_timeout: 60s
   #  duration to wait before auto_requeing a message (default "1m0s")
+  node_id:
+  # unique part for message IDs, (int) in range [0,1024) (default is hash of hostname) (default xxx)
   snappy: true
   #  enable snappy feature negotiation (client compression) (default true)
   statsd_address:
@@ -124,8 +133,6 @@ nsq_nsqd:
   #  require TLS for client connections (true, false, tcp_https)
   tls_root_ca_file:
   #  path to certificate authority file
-  worker_id: 255
-  #  unique seed for message ID generation (int) in range [0,4096) (will default to a hash of hostname) (default 225)
 
 nsq_nsqadmin:
   graphite_url:

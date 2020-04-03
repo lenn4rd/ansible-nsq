@@ -49,3 +49,7 @@
 
 - include: nsqadmin.yml
   when: nsq_nsqadmin_install
+
+- include: remove.yml
+  when:
+    - nsq_uninstall or not nsq_nsqadmin_install

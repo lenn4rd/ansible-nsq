@@ -1,0 +1,20 @@
+# - name: Remove binaries
+#   file:
+#     path: "{{ nsq_install_directory }}/{{ nsq_release }}"
+#     state: absent
+#   when: nsq_uninstall
+
+# - name: Stop nsqadmin service
+#   service:
+#     name: nsqadmin
+#     state: stopped
+#     enabled: no
+#   when: not nsq_nsqadmin_install
+
+- name: Remove nsqadmin service
+  file:
+    dest: /etc/systemd/system/nsqadmin.service
+    state: absent
+  when: not nsq_nsqadmin_install
+  notify:
+    - reload daemon
